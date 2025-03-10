@@ -56,7 +56,7 @@ class ClientController
 
 
                 foreach ($invoiceIds as $invoiceId) {
-                    $type = InvoiceItem::where('relid',(int)$invoiceId)->first();
+                    $type = InvoiceItem::where('invoiceid',(int)$invoiceId)->first();
                    
                     if ($type && $type->type == 'AddFunds') {
                         die($type->type);
