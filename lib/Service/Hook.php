@@ -180,7 +180,20 @@ class Hook
                                     <strong>Created At:</strong> ${invoice.duedate} |
                                     <strong>Total:</strong> $${invoice.total} USD
                                 `;
-   let buttonContainer = document.createElement("div");
+                                if (invoice.status === "Payment Pending") {
+                                    let buttonContainer = document.createElement("div");
+                                    let payButton = document.createElement("div");
+                                    payButton.textContent = "Payment Pending";
+                                    payButton.style.border = "2px solid #ccc";
+                                    payButton.style.color = "blue";
+                                    payButton.style.padding = "5px 30px";
+                                    payButton.style.textDecoration = "none";
+                                    payButton.style.marginRight = "10px";
+                                    payButton.style.borderRadius = "3px";
+
+                                    buttonContainer.appendChild(payButton);
+                                } else {
+                                    let buttonContainer = document.createElement("div");
                                     let payButton = document.createElement("a");
                                     payButton.href = `viewinvoice.php?id=${invoiceId}`;
                                     payButton.textContent = "Pay";
@@ -191,19 +204,19 @@ class Hook
                                     payButton.style.marginRight = "10px";
                                     payButton.style.borderRadius = "3px";
 
+                                    let cancelButton = document.createElement("a");
+                                    cancelButton.href = `index.php?m=InvoiceMerge&action=cancell_invoice&invoice_id=${invoiceId}`;
+                                    cancelButton.textContent = "Cancel";
+                                    cancelButton.style.border = "2px solid #ccc";
+                                    cancelButton.style.color = "red";
+                                    cancelButton.style.padding = "5px 30px";
+                                    cancelButton.style.borderRadius = "3px";
+                                    cancelButton.style.textDecoration = "none";
 
-                                        let cancelButton = document.createElement("a");
-                                        cancelButton.href = `index.php?m=InvoiceMerge&action=cancell_invoice&invoice_id=${invoiceId}`;
-                                        cancelButton.textContent = "Cancel";
-                                        cancelButton.style.border = "2px solid #ccc";
-                                        cancelButton.style.color = "red";
-                                        cancelButton.style.padding = "5px 30px";
-                                        cancelButton.style.borderRadius = "3px";
-                                        cancelButton.style.textDecoration = "none";
+                                    buttonContainer.appendChild(payButton);
+                                    buttonContainer.appendChild(cancelButton);
+                                }
 
-
-                                        buttonContainer.appendChild(payButton);
-                                        buttonContainer.appendChild(cancelButton);
 
 
 
