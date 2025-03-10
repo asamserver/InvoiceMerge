@@ -254,8 +254,9 @@ class Hook
                                 invoiceDetails.innerHTML = `
                                     <strong>Invoice #:</strong> ${invoiceId} |
                                     <strong>Created At:</strong> ${invoice.duedate} |
-                                    <strong>Total:</strong> if(invoice.total==="0.00"){$${invoice.total}}else{$${invoice.subtotal}} USD
+                                    <strong>Total:</strong> $${invoice.total === "0.00" ? invoice.subtotal : invoice.total} USD
                                 `;
+
                                 let viewButton = document.createElement("a");
                                 viewButton.href = `viewinvoice.php?id=${invoiceId}`;
                                 viewButton.textContent = "View";
