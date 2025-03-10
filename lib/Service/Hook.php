@@ -251,10 +251,11 @@ class Hook
                                 invoiceBox.style.justifyContent = "space-between";
                                 invoiceBox.style.alignItems = "center"; 
                                 let invoiceDetails = document.createElement("span");
+                                let invoiceDetails = document.createElement("span");
                                 invoiceDetails.innerHTML = `
                                     <strong>Invoice #:</strong> ${invoiceId} |
                                     <strong>Created At:</strong> ${invoice.duedate} |
-                                    <strong>Total:</strong> $${invoice.total} USD
+                                    <strong>Total:</strong> $${invoice.total === "0.00" ? invoice.subtotal : invoice.total} USD
                                 `;
                                 let viewButton = document.createElement("a");
                                 viewButton.href = `viewinvoice.php?id=${invoiceId}`;
