@@ -41,28 +41,22 @@ class ClientController
 
     public function mergeInvoices()
     {
-       
+
         if (isset($_POST['invoices_id']) && is_array($_POST['invoices_id']) && count($_POST['invoices_id']) > 0) {
             $invoiceIds = $_POST['invoices_id'];
-
             $data = [
                 'userid' => $_SESSION['uid'],
                 'invoices' => $invoiceIds
             ];
-
             try {
-
-               
-
-
-                foreach ($invoiceIds as $invoiceId) {
-                    $type = InvoiceItem::where('invoiceid',(int)$invoiceId)->first();                   
-                    if ($type && $type->type == 'AddFunds') {
-                        $_SESSION['whmcs_message_error'] = 'Add fund cannot be merged';
-                        header('Location: clientarea.php?action=invoices');
-                        exit;
-                    }
-                }
+                // foreach ($invoiceIds as $invoiceId) {
+                //     $type = InvoiceItem::where('invoiceid', (int)$invoiceId)->first();
+                //     if ($type && $type->type == 'AddFunds') {
+                //         $_SESSION['whmcs_message_error'] = 'Add fund cannot be merged';
+                //         header('Location: clientarea.php?action=invoices');
+                //         exit;
+                //     }
+                // }
                 if (!isset($_SESSION['uid'])) {
                     $_SESSION['whmcs_message_error'] = 'Use not found';
                     header('Location: clientarea.php?action=invoices');
@@ -78,15 +72,13 @@ class ClientController
                         break;
                     }
                 }
+                die("akusghdjayshbdkasbdjyag");
                 if ($invoices) {
                     $_SESSION['whmcs_message_error'] = 'There is unpaid merged invoice. Please pay or cancel it first.';
                     header('Location: clientarea.php?action=invoices');
                     exit;
                 }
-                // var_dump($data);
                 $result = MassPayment::handle($data);
-                // var_dump($result );
-                // die("asdhjkauhs");
                 if ($result['result'] == 'success') {
                     $_SESSION['whmcs_message_success'] = 'Invoices merged successfully!';
                 } else {
