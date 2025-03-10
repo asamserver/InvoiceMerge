@@ -52,11 +52,12 @@ class ClientController
 
             try {
 
-                var_dump($_POST);
-                die("kaushduashdkuahsdkuahsdkuahsdasidhasussssssssssssssssss");
+               
 
 
                 foreach ($invoiceIds as $invoiceId) {
+                    var_dump($invoiceId);
+                    die("kaushduashdkuahsdkuahsdkuahsdasidhasussssssssssssssssss");
                     $type = Invoice::find($invoiceId);
                     if ($type->type == 'AddFunds') {
                         $_SESSION['whmcs_message_error'] = 'There is unpaid merged invoice. Please pay or cancel it first.';
