@@ -56,7 +56,7 @@ class ClientController
                     exit;
                 }
                 $invoiceItems = InvoiceItem::where('type', 'Invoice')
-                    ->where('userid', $_SESSION['uid'])
+                    ->where(['userid', $_SESSION['uid'],'type'=>'Invoice'])
                     ->get();
 
                 foreach ($invoiceItems as $invoiceItem) {
