@@ -181,21 +181,6 @@ class Hook
                                     <strong>Total:</strong> $${invoice.total} USD
                                 `;
 
-                                if(invoice.status === "Payment Pending") {
-
-
-                                  let buttonContainer = document.createElement("div");
-                                    let payButton = document.createElement("div");
-                                    payButton.textContent = "Payment Pending";
-                                    payButton.style.border = "2px solid #ccc";
-                                    payButton.style.color = "blue";
-                                    payButton.style.padding = "5px 30px";
-                                    payButton.style.textDecoration = "none";
-                                    payButton.style.marginRight = "10px";
-                                    payButton.style.borderRadius = "3px";
-
-                                }else{
-                                
                                 
                                     let buttonContainer = document.createElement("div");
                                     let payButton = document.createElement("a");
@@ -219,9 +204,8 @@ class Hook
                                         cancelButton.style.textDecoration = "none";
 
 
-                                buttonContainer.appendChild(payButton);
-                                buttonContainer.appendChild(cancelButton);
-                                }
+                                        buttonContainer.appendChild(payButton);
+                                        buttonContainer.appendChild(cancelButton);
 
 
 
