@@ -50,6 +50,16 @@ class ClientController
             ];
 
             try {
+
+
+                foreach ($invoiceIds as $invoiceId) {
+                    $type = Invoice::find($invoiceId);
+                    if ($type->type == 'AddFunds') {
+                        $_SESSION['whmcs_message_error'] = 'There is unpaid merged invoice. Please pay or cancel it first.';
+                        header('Location: clientarea.php?action=invoices');
+                        exit;
+                    }
+                }
                 if (!isset($_SESSION['uid'])) {
                     $_SESSION['whmcs_message_error'] = 'Use not found';
                     header('Location: clientarea.php?action=invoices');
