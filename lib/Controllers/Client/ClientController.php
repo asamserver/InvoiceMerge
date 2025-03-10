@@ -62,10 +62,11 @@ class ClientController
                     header('Location: clientarea.php?action=invoices');
                     exit;
                 }
+                die("akusghdjayshbdkasbdjyag");
                 $invoiceItems = InvoiceItem::where('type', 'Invoice')
                     ->where(['userid', $_SESSION['uid']])
                     ->get();
-                die("akusghdjayshbdkasbdjyag");
+                
                 foreach ($invoiceItems as $invoiceItem) {
                     $invoices = Invoice::where(['id' => $invoiceItem->invoiceid, 'status' => 'Unpaid'])->first();
                     if ($invoices) {
