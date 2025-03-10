@@ -60,7 +60,6 @@ class ClientController
                     ->get();
 
                 foreach ($invoiceItems as $invoiceItem) {
-                    echo "ID " . $invoiceItem->invoiceid . "</br>";
                     $invoices = Invoice::where(['id' => $invoiceItem->invoiceid, 'status' => 'Unpaid'])->first();
                     if ($invoices) {
                         break;
