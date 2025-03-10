@@ -56,8 +56,10 @@ class ClientController
 
 
                 foreach ($invoiceIds as $invoiceId) {
-                   
+                    echo $invoiceId;
                     $type = InvoiceItem::where('relid',(int)$invoiceId)->first();
+                    var_dump($type);
+                    die("asuhgdjasd");
                     if ($type && $type->type == 'AddFunds') {
                         $_SESSION['whmcs_message_error'] = 'Add fund cannot be merged';
                         
