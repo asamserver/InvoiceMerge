@@ -1,0 +1,18 @@
+{
+    "require": {
+        "php": "^8.0",
+        "rakit/validation": "1.4",
+      "ext-curl": "*",
+      "ext-pdo": "*"
+    },
+    "autoload": {
+        "files": [
+          "lib/Helper/Helper.php"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true
+        }
+    }
+}
