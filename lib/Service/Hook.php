@@ -150,12 +150,12 @@ class Hook
                                 document.querySelector("#tableInvoicesList").insertAdjacentElement("afterend", mergeBtn);
                             }
 
-                        function insertUnpaidInvoices() {
-                            // Check if unpaidInvoices is empty
+                       function insertUnpaidInvoices() {
                             let unpaidInvoices = ' . json_encode($unpaidInvoices) . ';
                             if (Object.keys(unpaidInvoices).length === 0) {
                                 return; // Exit the function early if there are no unpaid invoices
                             }
+
                             let invoiceWrapper = document.createElement("div");
                             let title = document.createElement("h4");
                             title.textContent = "Unpaid Pack";
@@ -174,6 +174,7 @@ class Hook
                                 invoiceBox.style.display = "flex";
                                 invoiceBox.style.justifyContent = "space-between";
                                 invoiceBox.style.alignItems = "center"; 
+
                                 let invoiceDetails = document.createElement("span");
                                 invoiceDetails.innerHTML = `
                                     <strong>Invoice #:</strong> ${invoiceId} |
@@ -181,9 +182,9 @@ class Hook
                                     <strong>Total:</strong> $${invoice.total} USD
                                 `;
 
-                                let buttonContainer = document.createElement("div");
+                                let buttonContainer = document.createElement("div"); // Ensure this is defined outside the if-else
+
                                 if (invoice.status === "Payment Pending") {
-                                    let buttonContainer = document.createElement("div");
                                     let payButton = document.createElement("div");
                                     payButton.textContent = "Payment Pending";
                                     payButton.style.border = "2px solid #ccc";
@@ -195,7 +196,6 @@ class Hook
 
                                     buttonContainer.appendChild(payButton);
                                 } else {
-                                    let buttonContainer = document.createElement("div");
                                     let payButton = document.createElement("a");
                                     payButton.href = `viewinvoice.php?id=${invoiceId}`;
                                     payButton.textContent = "Pay";
@@ -218,20 +218,21 @@ class Hook
                                     buttonContainer.appendChild(payButton);
                                     buttonContainer.appendChild(cancelButton);
                                 }
+
                                 invoiceBox.appendChild(invoiceDetails);
-                                invoiceBox.appendChild(buttonContainer);
+                                invoiceBox.appendChild(buttonContainer); // Ensure buttonContainer is appended
                                 invoiceWrapper.appendChild(invoiceBox);
                             }
 
                             document.querySelector("#tableInvoicesList_wrapper").insertAdjacentElement("beforebegin", invoiceWrapper);
                         }
 
+
                         function insertPackedInvoices() {
                             let packs_data = ' . json_encode($packs_data) . ';
                             if (Object.keys(packs_data).length === 0) {
                                 return;
                             }
-
                             let invoiceWrapper = document.createElement("div");
                             invoiceWrapper.style.marginTop="20px";
                             let title = document.createElement("h4");
