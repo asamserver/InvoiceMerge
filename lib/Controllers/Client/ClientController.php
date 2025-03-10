@@ -56,12 +56,11 @@ class ClientController
 
 
                 foreach ($invoiceIds as $invoiceId) {
-                    var_dump($invoiceId);
-                    die("kaushduashdkuahsdkuahsdkuahsdasidhasussssssssssssssssss");
-                    $type = Invoice::find($invoiceId);
-                    if ($type->type == 'AddFunds') {
-                        $_SESSION['whmcs_message_error'] = 'There is unpaid merged invoice. Please pay or cancel it first.';
-                        die("JHSDJHGDB");
+                   
+                    $type = Invoice::find((int)$invoiceId);
+                    if ($type && $type->type == 'AddFunds') {
+                        $_SESSION['whmcs_message_error'] = 'Add fund cannot be merged';
+                        
                         header('Location: clientarea.php?action=invoices');
                         exit;
                     }
