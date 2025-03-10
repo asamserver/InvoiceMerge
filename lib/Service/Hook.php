@@ -1,14 +1,14 @@
 <?php
 
-namespace WHMCS\Module\Addon\InvoicePaid\Service;
+namespace WHMCS\Module\Addon\InvoiceMerge\Service;
 
 use Exception;
-use WHMCS\Module\Addon\InvoicePaid\Models\ClientProduct;
-use WHMCS\Module\Addon\InvoicePaid\Models\DB;
-use WHMCS\Module\Addon\InvoicePaid\Models\Invoice;
-use WHMCS\Module\Addon\InvoicePaid\Models\Order;
+use WHMCS\Module\Addon\InvoiceMerge\Models\ClientProduct;
+use WHMCS\Module\Addon\InvoiceMerge\Models\DB;
+use WHMCS\Module\Addon\InvoiceMerge\Models\Invoice;
+use WHMCS\Module\Addon\InvoiceMerge\Models\Order;
 use WHMCS\View\Menu\Item as MenuItem;
-use WHMCS\Module\Addon\InvoicePaid\Models\InvoiceItem;
+use WHMCS\Module\Addon\InvoiceMerge\Models\InvoiceItem;
 use WHMCS\Database\Capsule;
 
 if (!defined('WHMCS')) {
@@ -22,18 +22,18 @@ class Hook
      *
      * @return void
      */
-    public static function InvoicePaid_register(): void
+    public static function InvoiceMerge_register(): void
     {
-        self::InvoicePaid_addInvoiceCheckboxes();
+        self::InvoiceMerge_addInvoiceCheckboxes();
     }
 
 
-    public static function InvoicePaid_addInvoiceCheckboxes()
+    public static function InvoiceMerge_addInvoiceCheckboxes()
     {
 
 
         add_hook("ClientAreaPage", 1, function ($vars) {
-            $results = Capsule::table('tbladdonmodules')->where('module', 'InvoicePaid')->pluck('value', 'setting')->toArray();
+            $results = Capsule::table('tbladdonmodules')->where('module', 'InvoiceMerge')->pluck('value', 'setting')->toArray();
             if (strpos($_SERVER['REQUEST_URI'], 'clientarea.php?action=invoices') !== false && $results['showPackTable'] == 'on') {
                 $clientId = $_SESSION['uid'] ?? null;
                 if (!$clientId) {
@@ -134,7 +134,7 @@ class Hook
                                     if (selectedInvoices.length > 0) {
                                         const form = document.createElement("form");
                                         form.method = "POST";
-                                        form.action = "index.php?m=InvoicePaid&action=mergeInvoices";
+                                        form.action = "index.php?m=InvoiceMerge&action=mergeInvoices";
             
                                         selectedInvoices.forEach(id => {
                                             const input = document.createElement("input");
@@ -197,7 +197,7 @@ class Hook
                                 payButton.style.borderRadius = "3px";
 
                                 let cancelButton = document.createElement("a");
-                                cancelButton.href = `index.php?m=InvoicePaid&action=cancell_invoice&invoice_id=${invoiceId}`;
+                                cancelButton.href = `index.php?m=InvoiceMerge&action=cancell_invoice&invoice_id=${invoiceId}`;
                                 cancelButton.textContent = "Cancel";
                                 cancelButton.style.border = "2px solid #ccc";
                                 cancelButton.style.color = "red";

@@ -4,7 +4,7 @@ if (!defined('WHMCS')) {
     die('This file cannot be accessed directly!');
 }
 
-use WHMCS\Module\Addon\InvoicePaid\Models\Setting;
+use WHMCS\Module\Addon\InvoiceMerge\Models\Setting;
 
 
 try {
@@ -23,7 +23,7 @@ try {
         throw new Exception('Module is deactivated. Please check the active checkbox in the module api access settings page.');
     }
 
-    $function = "\WHMCS\Module\Addon\InvoicePaid\Service\\" . $request['function'];
+    $function = "\WHMCS\Module\Addon\InvoiceMerge\Service\\" . $request['function'];
     if (class_exists($function)) {
         $apiresults = $function::handle($request);
     } else {
@@ -37,6 +37,6 @@ try {
     $apiresults = [
         'result' => 'error',
         'message' => $e->getMessage(),
-        'location' => 'InvoicePaidapi.php'
+        'location' => 'InvoiceMergeapi.php'
     ];
 }

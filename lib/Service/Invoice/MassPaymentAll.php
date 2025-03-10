@@ -1,10 +1,10 @@
 <?php
 
-namespace WHMCS\Module\Addon\InvoicePaid\Service\Invoice;
+namespace WHMCS\Module\Addon\InvoiceMerge\Service\Invoice;
 
-use WHMCS\Module\Addon\InvoicePaid\Models\Invoice;
-use WHMCS\Module\Addon\InvoicePaid\Models\InvoiceItem;
-use WHMCS\Module\Addon\InvoicePaid\Service\BaseService;
+use WHMCS\Module\Addon\InvoiceMerge\Models\Invoice;
+use WHMCS\Module\Addon\InvoiceMerge\Models\InvoiceItem;
+use WHMCS\Module\Addon\InvoiceMerge\Service\BaseService;
 use Carbon\Carbon;
 
 class MassPaymentAll extends BaseService

@@ -1,8 +1,8 @@
 <?php
 
-namespace WHMCS\Module\Addon\InvoicePaid\Service;
+namespace WHMCS\Module\Addon\InvoiceMerge\Service;
 
-use WHMCS\Module\Addon\InvoicePaid\Models\InvoiceItem;
+use WHMCS\Module\Addon\InvoiceMerge\Models\InvoiceItem;
 
 class CreditInvoice extends BaseService
 {

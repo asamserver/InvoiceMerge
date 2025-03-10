@@ -1,6 +1,6 @@
 <?php
 
-namespace WHMCS\Module\Addon\InvoicePaid\Service;
+namespace WHMCS\Module\Addon\InvoiceMerge\Service;
 
 if (!defined('WHMCS')) {
     die('This file cannot be access directly!');
@@ -8,7 +8,7 @@ if (!defined('WHMCS')) {
 
 use Exception;
 use WHMCS\Database\Capsule;
-use WHMCS\Module\Addon\InvoicePaid\Models\Setting;
+use WHMCS\Module\Addon\InvoiceMerge\Models\Setting;
 
 class Application
 {
@@ -20,8 +20,8 @@ class Application
     public static function config(): array
     {
         return [
-            'name' => 'InvoicePaid',
-            'description' => 'Jump panel extra config manager <script type="text/javascript"> $(document).ready(function(){ $("td > a[name=InvoicePaid]").prepend("<img width=\"40px\" height=\"40px\" src=\"../modules/addons/InvoicePaid/logo.png\">"); }); </script>',
+            'name' => 'InvoiceMerge',
+            'description' => 'Jump panel extra config manager <script type="text/javascript"> $(document).ready(function(){ $("td > a[name=InvoiceMerge]").prepend("<img width=\"40px\" height=\"40px\" src=\"../modules/addons/InvoiceMerge/logo.png\">"); }); </script>',
             'author' => 'Mohammadreza Rabiei',
             'language' => 'english',
             'version' => '1.0',
@@ -81,7 +81,7 @@ class Application
 
             /*
              * commented for now
-            $deleteSetting = InvoicePaid_getSetting('delete_data', 'env');
+            $deleteSetting = InvoiceMerge_getSetting('delete_data', 'env');
 
             if (!empty($deleteSetting)) {
                 if ($deleteSetting == 'false') {
@@ -96,7 +96,7 @@ class Application
             //            Capsule::schema()->dropIfExists('mod_wam_jump_settings');
 
             // Commented role creation and deletion for now
-            //            Capsule::table('tblapi_roles')->where('role', 'InvoicePaid')->delete();
+            //            Capsule::table('tblapi_roles')->where('role', 'InvoiceMerge')->delete();
 
             return [
                 'status' => 'success',
@@ -123,15 +123,15 @@ class Application
 
         // Commented role creation and deletion for now
         Capsule::table('tblapi_roles')->insert([
-            'role' => 'InvoicePaid',
-            'description' => 'access to "InvoicePaidApi" action',
-            'permissions' => json_encode(['InvoicePaidapi' => 1]),
+            'role' => 'InvoiceMerge',
+            'description' => 'access to "InvoiceMergeApi" action',
+            'permissions' => json_encode(['InvoiceMergeapi' => 1]),
         ]);
 
         if (copy(self::apiSrc(), self::apiDest())) {
-            logActivity('Addons Module InvoicePaid api file added.');
+            logActivity('Addons Module InvoiceMerge api file added.');
         } else {
-            logActivity('Addons Module InvoicePaid cannot add api custom file');
+            logActivity('Addons Module InvoiceMerge cannot add api custom file');
         }
     }
 
@@ -154,7 +154,7 @@ class Application
      */
     private static function apiSrc(): string
     {
-        return __DIR__ . '/Api/InvoicePaidapi.php';
+        return __DIR__ . '/Api/InvoiceMergeapi.php';
     }
 
     /**
@@ -164,6 +164,6 @@ class Application
      */
     private static function apiDest(): string
     {
-        return __DIR__ . '/../../../../../includes/api/InvoicePaidapi.php';
+        return __DIR__ . '/../../../../../includes/api/InvoiceMergeapi.php';
     }
 }

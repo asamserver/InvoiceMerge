@@ -1,6 +1,6 @@
 <?php
 
-namespace WHMCS\Module\Addon\InvoicePaid\Response;
+namespace WHMCS\Module\Addon\InvoiceMerge\Response;
 
 if (!defined('WHMCS')) {
     die('This file cannot be access directly!');
@@ -18,7 +18,7 @@ class Response
      */
     public function withMessage(bool $status = true, string $message = 'your change successfully stored'): Response
     {
-        $_SESSION['InvoicePaid_message'] = compact('status', 'message');
+        $_SESSION['InvoiceMerge_message'] = compact('status', 'message');
 
         return $this;
     }
@@ -32,7 +32,7 @@ class Response
      */
     public function withErrors(array $errors): Response
     {
-        $_SESSION['InvoicePaid_validate_errors'] = $errors;
+        $_SESSION['InvoiceMerge_validate_errors'] = $errors;
 
         return $this;
     }
@@ -46,7 +46,7 @@ class Response
      */
     public function withInputs(array $inputs): Response
     {
-        $_SESSION['InvoicePaid_old_inputs'] = $inputs;
+        $_SESSION['InvoiceMerge_old_inputs'] = $inputs;
 
         return $this;
     }
@@ -75,7 +75,7 @@ class Response
      */
     public function redirectBack()
     {
-        $url = str_replace('amp;', '', $_SESSION['InvoicePaid_prev_url']);
+        $url = str_replace('amp;', '', $_SESSION['InvoiceMerge_prev_url']);
 
         $this->redirect($url);
     }

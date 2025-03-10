@@ -1,6 +1,6 @@
 <?php
 
-namespace WHMCS\Module\Addon\InvoicePaid\Models;
+namespace WHMCS\Module\Addon\InvoiceMerge\Models;
 
 if (!defined('WHMCS')) {
     die('This file cannot be access directly!');

@@ -1,6 +1,6 @@
 <?php
 
-namespace WHMCS\Module\Addon\InvoicePaid\Service;
+namespace WHMCS\Module\Addon\InvoiceMerge\Service;
 
 abstract class BaseService
 {

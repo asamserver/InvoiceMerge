@@ -4,8 +4,8 @@ if (!defined('WHMCS')) {
     die('This file cannot be access directly!');
 }
 
-use WHMCS\Module\Addon\InvoicePaid\Models\Setting;
-use WHMCS\Module\Addon\InvoicePaid\Response\Response;
+use WHMCS\Module\Addon\InvoiceMerge\Models\Setting;
+use WHMCS\Module\Addon\InvoiceMerge\Response\Response;
 use WHMCS\Database\Capsule;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -18,8 +18,8 @@ use WHMCS\User\Admin;
  * @param string $type
  * @return string|null
  */
-if (!function_exists('InvoicePaid_getSetting')) {
-    function InvoicePaid_getSetting(string $key, string $type): ?string
+if (!function_exists('InvoiceMerge_getSetting')) {
+    function InvoiceMerge_getSetting(string $key, string $type): ?string
     {
         $setting = Setting::where('key', "$key")->where('type', $type)->first();
 
@@ -38,8 +38,8 @@ if (!function_exists('InvoicePaid_getSetting')) {
  * @param string|null $value
  * @return Setting|null
  */
-if (!function_exists('InvoicePaid_updateSetting')) {
-    function InvoicePaid_updateSetting(string $key, string $value = null): ?Setting
+if (!function_exists('InvoiceMerge_updateSetting')) {
+    function InvoiceMerge_updateSetting(string $key, string $value = null): ?Setting
     {
         $setting = Setting::where('key', "$key")->first();
 
@@ -62,8 +62,8 @@ if (!function_exists('InvoicePaid_updateSetting')) {
  * @param string|null $value
  * @return Setting|null
  */
-if (!function_exists('InvoicePaid_storeSetting')) {
-    function InvoicePaid_storeSetting(string $key, string $type, string $value = null): ?Setting
+if (!function_exists('InvoiceMerge_storeSetting')) {
+    function InvoiceMerge_storeSetting(string $key, string $type, string $value = null): ?Setting
     {
         $checkSetting = Setting::where('key', "$key")->first();
 
@@ -87,8 +87,8 @@ if (!function_exists('InvoicePaid_storeSetting')) {
  * @param string $key
  * @return bool
  */
-if (!function_exists('InvoicePaid_deleteSetting')) {
-    function InvoicePaid_deleteSetting(string $key): bool
+if (!function_exists('InvoiceMerge_deleteSetting')) {
+    function InvoiceMerge_deleteSetting(string $key): bool
     {
         $setting = Setting::where('key', "$key")->first();
 
@@ -110,8 +110,8 @@ if (!function_exists('InvoicePaid_deleteSetting')) {
  *
  * @return string
  */
-if (!function_exists('InvoicePaid_renderAdminView')) {
-    function InvoicePaid_renderAdminView(string $path, array $data = []): string
+if (!function_exists('InvoiceMerge_renderAdminView')) {
+    function InvoiceMerge_renderAdminView(string $path, array $data = []): string
     {
         $path = __DIR__ . '/../View/admin/' . $path . '.php';
         $view = '';
@@ -136,21 +136,21 @@ if (!function_exists('InvoicePaid_renderAdminView')) {
  *
  * @return string
  */
-if (!function_exists('InvoicePaid_renderJS')) {
-    function InvoicePaid_renderJS(string $path, string $type = 'local'): string
+if (!function_exists('InvoiceMerge_renderJS')) {
+    function InvoiceMerge_renderJS(string $path, string $type = 'local'): string
     {
         if ($type == 'cdn') {
             return '<script src="' . $path . '"></script>';
         }
 
-        $whmcsDirUrlSetting = InvoicePaid_getSetting('whmcs_dir_url', 'env');
+        $whmcsDirUrlSetting = InvoiceMerge_getSetting('whmcs_dir_url', 'env');
         if (!empty($whmcsDirUrlSetting)) {
-            $path = $whmcsDirUrlSetting . '/modules/addons/InvoicePaid/assets/js/' . $path;
+            $path = $whmcsDirUrlSetting . '/modules/addons/InvoiceMerge/assets/js/' . $path;
         } else {
-            $path = '/modules/addons/InvoicePaid/assets/js/' . $path;
+            $path = '/modules/addons/InvoiceMerge/assets/js/' . $path;
         }
 
-        $generateRandomNumber = InvoicePaid_generateRandomNumber();
+        $generateRandomNumber = InvoiceMerge_generateRandomNumber();
 
         return '<script type="text/javascript" src="' . $path . '?v=' . $generateRandomNumber . '"></script>';
     }
@@ -163,21 +163,21 @@ if (!function_exists('InvoicePaid_renderJS')) {
  *
  * @return string
  */
-if (!function_exists('InvoicePaid_renderCSS')) {
-    function InvoicePaid_renderCSS(string $path, string $type = 'local'): string
+if (!function_exists('InvoiceMerge_renderCSS')) {
+    function InvoiceMerge_renderCSS(string $path, string $type = 'local'): string
     {
         if ($type == 'cdn') {
             return '<link rel="stylesheet" href="' . $path . '">';
         }
 
-        $whmcsDirUrlSetting = InvoicePaid_getSetting('whmcs_dir_url', 'env');
+        $whmcsDirUrlSetting = InvoiceMerge_getSetting('whmcs_dir_url', 'env');
         if (!empty($whmcsDirUrlSetting)) {
-            $path = $whmcsDirUrlSetting . '/modules/addons/InvoicePaid/assets/css/' . $path;
+            $path = $whmcsDirUrlSetting . '/modules/addons/InvoiceMerge/assets/css/' . $path;
         } else {
-            $path = '/modules/addons/InvoicePaid/assets/css/' . $path;
+            $path = '/modules/addons/InvoiceMerge/assets/css/' . $path;
         }
 
-        $generateRandomNumber = InvoicePaid_generateRandomNumber();
+        $generateRandomNumber = InvoiceMerge_generateRandomNumber();
 
         return '<link rel="stylesheet" type="text/css" href="' . $path . '?v=' . $generateRandomNumber . '">';
     }
@@ -189,8 +189,8 @@ if (!function_exists('InvoicePaid_renderCSS')) {
  * @param string $path
  *
  */
-if (!function_exists('InvoicePaid_generateRandomNumber')) {
-    function InvoicePaid_generateRandomNumber(): int
+if (!function_exists('InvoiceMerge_generateRandomNumber')) {
+    function InvoiceMerge_generateRandomNumber(): int
     {
         // Get the current time in microseconds
         $microtime = microtime(true);
@@ -212,8 +212,8 @@ if (!function_exists('InvoicePaid_generateRandomNumber')) {
  *
  * @return mixed
  */
-if (!function_exists('InvoicePaid_getClientId')) {
-    function InvoicePaid_getClientId($userId = null)
+if (!function_exists('InvoiceMerge_getClientId')) {
+    function InvoiceMerge_getClientId($userId = null)
     {
         if ($_SESSION['uid']) {
             return $_SESSION['uid'];
@@ -230,10 +230,10 @@ if (!function_exists('InvoicePaid_getClientId')) {
  * @param string $controllerName
  * @return string
  */
-if (!function_exists('InvoicePaid_getControllerClass')) {
-    function InvoicePaid_getControllerClass(string $controllerName): string
+if (!function_exists('InvoiceMerge_getControllerClass')) {
+    function InvoiceMerge_getControllerClass(string $controllerName): string
     {
         // Return the fully qualified class name
-        return "WHMCS\\Module\\Addon\\InvoicePaid\\Controllers\\Admin\\" . ucfirst($controllerName) . "Controller";
+        return "WHMCS\\Module\\Addon\\InvoiceMerge\\Controllers\\Admin\\" . ucfirst($controllerName) . "Controller";
     }
 }

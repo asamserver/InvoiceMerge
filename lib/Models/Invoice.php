@@ -1,6 +1,6 @@
 <?php
 
-namespace WHMCS\Module\Addon\InvoicePaid\Models;
+namespace WHMCS\Module\Addon\InvoiceMerge\Models;
 
 if (!defined('WHMCS')) {
     die('This file cannot be access directly!');
@@ -22,7 +22,7 @@ class Invoice extends Model
         'id',
     ];
 
-   
+
     public function items(): mixed
     {
         return $this->hasMany(InvoiceItem::class, 'invoiceid', 'id');

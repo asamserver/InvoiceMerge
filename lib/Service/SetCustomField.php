@@ -1,8 +1,8 @@
 <?php
 
-namespace WHMCS\Module\Addon\InvoicePaid\Service;
+namespace WHMCS\Module\Addon\InvoiceMerge\Service;
 
-use WHMCS\Module\Addon\InvoicePaid\Models\CustomField;
+use WHMCS\Module\Addon\InvoiceMerge\Models\CustomField;
 
 class SetCustomField extends BaseService
 {
@@ -11,7 +11,7 @@ class SetCustomField extends BaseService
     {
         if (!self::validateRequest($request)) return self::errorResponse('validation error');
 
-        $service = \WHMCS\Module\Addon\InvoicePaid\Models\Service::with('customFields')->where('id', $request['serviceid'])->first();
+        $service = \WHMCS\Module\Addon\InvoiceMerge\Models\Service::with('customFields')->where('id', $request['serviceid'])->first();
         $customNameField = self::getCustomField($service, $request['name'], $request['description'] ?? '');
         self::setCustomFieldValue($customNameField, $request['value']);
         return self::successResponse(['message' => 'OK']);
