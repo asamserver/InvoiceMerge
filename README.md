@@ -1,2 +1,1 @@
-# wam_jump
 # InvoicePaid
