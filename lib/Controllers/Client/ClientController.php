@@ -65,14 +65,14 @@ class ClientController
                 $invoiceItems = InvoiceItem::where('type', 'Invoice')
                     ->where(['userid', $_SESSION['uid']])
                     ->get();
-
+                die("akusghdjayshbdkasbdjyag");
                 foreach ($invoiceItems as $invoiceItem) {
                     $invoices = Invoice::where(['id' => $invoiceItem->invoiceid, 'status' => 'Unpaid'])->first();
                     if ($invoices) {
                         break;
                     }
                 }
-                die("akusghdjayshbdkasbdjyag");
+
                 if ($invoices) {
                     $_SESSION['whmcs_message_error'] = 'There is unpaid merged invoice. Please pay or cancel it first.';
                     header('Location: clientarea.php?action=invoices');
