@@ -22,7 +22,7 @@ class Application
         return [
             'name' => 'InvoiceMerge',
             'description' => 'Jump panel extra config manager <script type="text/javascript"> $(document).ready(function(){ $("td > a[name=InvoiceMerge]").prepend("<img width=\"40px\" height=\"40px\" src=\"../modules/addons/InvoiceMerge/logo.png\">"); }); </script>',
-            'author' => 'Mohammadreza Rabiei',
+            'author' => 'Invoice Merge',
             'language' => 'english',
             'version' => '1.0',
             "fields" => [
