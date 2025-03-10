@@ -181,7 +181,7 @@ class Hook
                                     <strong>Total:</strong> $${invoice.total} USD
                                 `;
 
-                                
+                                let buttonContainer = document.createElement("div");
                                 if (invoice.status === "Payment Pending") {
                                     let buttonContainer = document.createElement("div");
                                     let payButton = document.createElement("div");
