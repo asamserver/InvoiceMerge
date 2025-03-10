@@ -56,12 +56,9 @@ class ClientController
 
 
                 foreach ($invoiceIds as $invoiceId) {
-                    $type = InvoiceItem::where('invoiceid',(int)$invoiceId)->first();
-                   
+                    $type = InvoiceItem::where('invoiceid',(int)$invoiceId)->first();                   
                     if ($type && $type->type == 'AddFunds') {
-                        die($type->type);
                         $_SESSION['whmcs_message_error'] = 'Add fund cannot be merged';
-                        
                         header('Location: clientarea.php?action=invoices');
                         exit;
                     }
