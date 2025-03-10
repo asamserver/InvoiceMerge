@@ -167,10 +167,10 @@ class Hook
 
                                 let invoiceBox = document.createElement("div");
                                 invoiceBox.style.border = "1px solid #ccc";
-                                invoiceBox.style.padding = "18px";
+                                invoiceBox.style.padding = "25px";
                                 invoiceBox.style.backgroundColor = "transparent";
                                 invoiceBox.style.width = "100%";
-                                invoiceBox.style.margin = "16px 0";
+                                invoiceBox.style.margin = "10px 0";
                                 invoiceBox.style.display = "flex";
                                 invoiceBox.style.justifyContent = "space-between";
                                 invoiceBox.style.alignItems = "center"; 
