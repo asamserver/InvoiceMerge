@@ -3,11 +3,7 @@
 namespace WHMCS\Module\Addon\InvoiceMerge\Service;
 
 use Exception;
-use WHMCS\Module\Addon\InvoiceMerge\Models\ClientProduct;
-use WHMCS\Module\Addon\InvoiceMerge\Models\DB;
 use WHMCS\Module\Addon\InvoiceMerge\Models\Invoice;
-use WHMCS\Module\Addon\InvoiceMerge\Models\Order;
-use WHMCS\View\Menu\Item as MenuItem;
 use WHMCS\Module\Addon\InvoiceMerge\Models\InvoiceItem;
 use WHMCS\Database\Capsule;
 

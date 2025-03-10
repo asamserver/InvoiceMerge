@@ -5,11 +5,7 @@ if (!defined('WHMCS')) {
 }
 
 use WHMCS\Module\Addon\InvoiceMerge\Models\Setting;
-use WHMCS\Module\Addon\InvoiceMerge\Response\Response;
 use WHMCS\Database\Capsule;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use WHMCS\User\Admin;
 
 /**
  * Get Setting
