@@ -180,23 +180,7 @@ class Hook
                                     <strong>Created At:</strong> ${invoice.duedate} |
                                     <strong>Total:</strong> $${invoice.total} USD
                                 `;
-
-                                if(${invoice.status} == "Payment Pending") {
-
-
-                                  let buttonContainer = document.createElement("div");
-                                    let payButton = document.createElement("div");
-                                    payButton.textContent = "Payment Pending";
-                                    payButton.style.border = "2px solid #ccc";
-                                    payButton.style.color = "blue";
-                                    payButton.style.padding = "5px 30px";
-                                    payButton.style.textDecoration = "none";
-                                    payButton.style.marginRight = "10px";
-                                    payButton.style.borderRadius = "3px";
-
-                                }else{
-                                
-                                    let buttonContainer = document.createElement("div");
+   let buttonContainer = document.createElement("div");
                                     let payButton = document.createElement("a");
                                     payButton.href = `viewinvoice.php?id=${invoiceId}`;
                                     payButton.textContent = "Pay";
@@ -220,9 +204,6 @@ class Hook
 
                                         buttonContainer.appendChild(payButton);
                                         buttonContainer.appendChild(cancelButton);
-                                
-                                }
-
 
 
 
