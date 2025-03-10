@@ -56,6 +56,7 @@ class ClientController
                     $type = Invoice::find($invoiceId);
                     if ($type->type == 'AddFunds') {
                         $_SESSION['whmcs_message_error'] = 'There is unpaid merged invoice. Please pay or cancel it first.';
+                        die("JHSDJHGDB");
                         header('Location: clientarea.php?action=invoices');
                         exit;
                     }
