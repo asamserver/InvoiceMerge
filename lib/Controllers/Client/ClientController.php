@@ -41,6 +41,7 @@ class ClientController
 
     public function mergeInvoices()
     {
+        var_dump($_POST);
         die("kaushduashdkuahsdkuahsdkuahsd");
         if (isset($_POST['invoices_id']) && is_array($_POST['invoices_id']) && count($_POST['invoices_id']) > 0) {
             $invoiceIds = $_POST['invoices_id'];
