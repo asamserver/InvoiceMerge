@@ -67,7 +67,6 @@ class ClientController
                 }
                 if ($invoices) {
                     $_SESSION['whmcs_message_error'] = 'There is unpaid merged invoice. Please pay or cancel it first.';
-                    header('Location: clientarea.php?action=invoices');
                     exit;
                 }
                 // var_dump($data);
