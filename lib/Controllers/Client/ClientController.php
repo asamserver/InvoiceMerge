@@ -53,11 +53,10 @@ class ClientController
             exit;
         }
     
-        $invoiceIds = array_map('intval', $_POST['invoices_id']); // Ensure all IDs are integers
+        $invoiceIds = array_map('intval', $_POST['invoices_id']);
         $userId = (int) $_SESSION['uid'];
     
         try {
-            // Check if any of the invoices are "AddFunds", which cannot be merged
             $hasAddFundsInvoice = InvoiceItem::whereIn('invoiceid', $invoiceIds)
                 ->where('type', 'AddFunds')
                 ->exists();
@@ -68,7 +67,6 @@ class ClientController
                 exit;
             }
     
-            // Check if there's an unpaid merged invoice
             $unpaidInvoiceExists = Invoice::whereIn('id', function ($query) use ($userId) {
                     $query->select('invoiceid')
                         ->from('tblinvoiceitems')
@@ -84,7 +82,6 @@ class ClientController
                 exit;
             }
     
-            // Proceed with merging the invoices
             $data = [
                 'userid' => $userId,
                 'invoices' => $invoiceIds,
