@@ -57,6 +57,7 @@ class ClientController
                 //         exit;
                 //     }
                 // }
+                var_dump($_SESSION);
                 die("akusghdjayshbdkasbdjyag");
                 if (!isset($_SESSION['uid'])) {
                     $_SESSION['whmcs_message_error'] = 'Use not found';
