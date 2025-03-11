@@ -239,6 +239,7 @@ class Hook
                             let title = document.createElement("h4");
                             title.textContent = "Paid Packs";
                             title.style.marginBottom = "10px";
+                            title.style.fontWeight = "bold";
                             invoiceWrapper.appendChild(title);
                             for (let invoiceId in packs_data) {
                                 let invoice = packs_data[invoiceId];
