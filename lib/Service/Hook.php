@@ -185,7 +185,7 @@ class Hook
 
                                 let buttonContainer = document.createElement("div"); // Ensure this is defined outside the if-else
 
-                                if (invoice.status === "Payment Pending") {
+                                if (invoice.status == "Payment Pending") {
                                     let payButton = document.createElement("div");
                                     payButton.textContent = "Payment Pending";
                                     payButton.style.border = "2px solid #ccc";
