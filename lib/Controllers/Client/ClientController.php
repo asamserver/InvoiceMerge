@@ -73,7 +73,7 @@ class ClientController
                         ->where('type', 'Invoice')
                         ->where('userid', $userId);
                 })
-                ->where('status', 'Unpaid')
+                ->whereIn('status', ['Unpaid','Payment Pending'])
                 ->exists();
     
             if ($unpaidInvoiceExists) {
