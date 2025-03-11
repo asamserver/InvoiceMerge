@@ -261,9 +261,9 @@ class Hook
 
                                 let viewButton = document.createElement("a");
                                 viewButton.href = `viewinvoice.php?id=${invoiceId}`;
-                                viewButton.textContent = "View";
+                                viewButton.textContent = "Paid";
                                 viewButton.style.border = "2px solid #ccc";
-                                viewButton.style.color = "blue";
+                                viewButton.style.color = "green";
                                 viewButton.style.padding = "5px 30px";
                                 viewButton.style.borderRadius = "3px";
                                 viewButton.style.textDecoration = "none";
