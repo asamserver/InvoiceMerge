@@ -64,8 +64,7 @@ class ClientController
                     exit;
                 }
 
-                var_dump($_SESSION['uid']);
-                die("----------------------------------------------");
+                
                 
                 $invoiceItems = InvoiceItem::where('type', 'Invoice')
                     ->where(['userid', $_SESSION['uid']])
@@ -77,6 +76,9 @@ class ClientController
                         break;
                     }
                 }
+
+                var_dump($_SESSION['uid']);
+                die("-----------------****------------------------------");
 
                 if ($invoices) {
                     $_SESSION['whmcs_message_error'] = 'There is unpaid merged invoice. Please pay or cancel it first.';
