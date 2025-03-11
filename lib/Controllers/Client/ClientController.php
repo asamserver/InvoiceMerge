@@ -57,13 +57,15 @@ class ClientController
                 //         exit;
                 //     }
                 // }
-                var_dump($_SESSION['uid']);
-                die("akusghdjayshbdkasbdjyag");
+             
                 if (!isset($_SESSION['uid'])) {
                     $_SESSION['whmcs_message_error'] = 'Use not found';
                     header('Location: clientarea.php?action=invoices');
                     exit;
                 }
+
+                var_dump($_SESSION['uid']);
+                die("----------------------------------------------");
                 
                 $invoiceItems = InvoiceItem::where('type', 'Invoice')
                     ->where(['userid', $_SESSION['uid']])
