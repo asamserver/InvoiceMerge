@@ -54,6 +54,8 @@ class Hook
                         $packs_data[$pack->invoiceid] = $inv;
                     }
                 }
+                var_dump($unpaidInvoices);
+                
 
                 $script = '
                     <script>
