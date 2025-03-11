@@ -38,7 +38,7 @@ class Hook
                 $packs = InvoiceItem::where('type', 'Invoice')
                     ->where('userid', $clientId)
                     ->whereHas('invoice', function ($query) {
-                        $query->whereIn('status', ['Unpaid', 'Paid']);
+                        $query->whereIn('status', ['Unpaid', 'Paid','Payment Pending']);
                     })
                     ->get();
 
@@ -54,7 +54,6 @@ class Hook
                         $packs_data[$pack->invoiceid] = $inv;
                     }
                 }
-                var_dump($unpaidInvoices);
                 
 
                 $script = '
