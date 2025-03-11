@@ -41,66 +41,68 @@ class ClientController
 
     public function mergeInvoices()
     {
-
-        if (isset($_POST['invoices_id']) && is_array($_POST['invoices_id']) && count($_POST['invoices_id']) > 0) {
-            $invoiceIds = $_POST['invoices_id'];
-            $data = [
-                'userid' => $_SESSION['uid'],
-                'invoices' => $invoiceIds
-            ];
-            try {
-                // foreach ($invoiceIds as $invoiceId) {
-                //     $type = InvoiceItem::where('invoiceid', (int)$invoiceId)->first();
-                //     if ($type && $type->type == 'AddFunds') {
-                //         $_SESSION['whmcs_message_error'] = 'Add fund cannot be merged';
-                //         header('Location: clientarea.php?action=invoices');
-                //         exit;
-                //     }
-                // }
-             
-                if (!isset($_SESSION['uid'])) {
-                    $_SESSION['whmcs_message_error'] = 'Use not found';
-                    header('Location: clientarea.php?action=invoices');
-                    exit;
-                }
-
-                
-                
-                $invoiceItems = InvoiceItem::where('type', 'Invoice')
-                    ->where(['userid', $_SESSION['uid']])
-                    ->get();
-                
-                foreach ($invoiceItems as $invoiceItem) {
-                    $invoices = Invoice::where(['id' => $invoiceItem->invoiceid, 'status' => 'Unpaid'])->first();
-                    if ($invoices) {
-                        break;
-                    }
-                }
-
-                var_dump($_SESSION['uid']);
-                die("-----------------****------------------------------");
-
-                if ($invoices) {
-                    $_SESSION['whmcs_message_error'] = 'There is unpaid merged invoice. Please pay or cancel it first.';
-                    header('Location: clientarea.php?action=invoices');
-                    exit;
-                }
-                $result = MassPayment::handle($data);
-                if ($result['result'] == 'success') {
-                    $_SESSION['whmcs_message_success'] = 'Invoices merged successfully!';
-                } else {
-                    $_SESSION['whmcs_message_error'] = $result['message'];
-                }
-            } catch (Exception $e) {
-                $_SESSION['whmcs_message_error'] = 'An error occurred: ' . htmlspecialchars($e->getMessage());
-            }
-
-            header('Location: clientarea.php?action=invoices');
-            exit;
-        } else {
+        if (!isset($_POST['invoices_id']) || !is_array($_POST['invoices_id']) || count($_POST['invoices_id']) === 0) {
             $_SESSION['whmcs_message_error'] = 'No invoices selected for merging.';
             header('Location: clientarea.php?action=invoices');
             exit;
         }
+    
+        if (!isset($_SESSION['uid'])) {
+            $_SESSION['whmcs_message_error'] = 'User not found.';
+            header('Location: clientarea.php?action=invoices');
+            exit;
+        }
+    
+        $invoiceIds = array_map('intval', $_POST['invoices_id']); // Ensure all IDs are integers
+        $userId = (int) $_SESSION['uid'];
+    
+        try {
+            // Check if any of the invoices are "AddFunds", which cannot be merged
+            $hasAddFundsInvoice = InvoiceItem::whereIn('invoiceid', $invoiceIds)
+                ->where('type', 'AddFunds')
+                ->exists();
+    
+            if ($hasAddFundsInvoice) {
+                $_SESSION['whmcs_message_error'] = 'Invoices containing "Add Funds" cannot be merged.';
+                header('Location: clientarea.php?action=invoices');
+                exit;
+            }
+    
+            // Check if there's an unpaid merged invoice
+            $unpaidInvoiceExists = Invoice::whereIn('id', function ($query) use ($userId) {
+                    $query->select('invoiceid')
+                        ->from('tblinvoiceitems')
+                        ->where('type', 'Invoice')
+                        ->where('userid', $userId);
+                })
+                ->where('status', 'Unpaid')
+                ->exists();
+    
+            if ($unpaidInvoiceExists) {
+                $_SESSION['whmcs_message_error'] = 'There is an unpaid merged invoice. Please pay or cancel it first.';
+                header('Location: clientarea.php?action=invoices');
+                exit;
+            }
+    
+            // Proceed with merging the invoices
+            $data = [
+                'userid' => $userId,
+                'invoices' => $invoiceIds,
+            ];
+    
+            $result = MassPayment::handle($data);
+    
+            if ($result['result'] === 'success') {
+                $_SESSION['whmcs_message_success'] = 'Invoices merged successfully!';
+            } else {
+                $_SESSION['whmcs_message_error'] = $result['message'];
+            }
+        } catch (Exception $e) {
+            $_SESSION['whmcs_message_error'] = 'An error occurred: ' . htmlspecialchars($e->getMessage());
+        }
+    
+        header('Location: clientarea.php?action=invoices');
+        exit;
     }
+    
 }
