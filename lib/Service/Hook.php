@@ -48,7 +48,7 @@ class Hook
                 foreach ($packs as $pack) {
                     $inv = Invoice::find($pack->invoiceid);
 
-                    if ($inv->status == 'Unpaid' && $inv->status != 'Payment Pending') {
+                    if ($inv->status == 'Unpaid' && $inv->status == 'Payment Pending') {
                         $unpaidInvoices[$pack->invoiceid] = $inv;
                     } elseif ($inv->status == 'Paid') {
                         $packs_data[$pack->invoiceid] = $inv;
