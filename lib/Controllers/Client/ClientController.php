@@ -27,6 +27,11 @@ class ClientController
                 exit;
             }
             $result = Invoice::where('id', $invoiceId)->update(['status' => 'Cancelled']);
+            foreach ($invoice->items as $item) {
+                $invoice=Invoice::find($item->relid);
+                $invoice->status = 'Unpaid';
+                $invoice->save();
+            }
             if ($result) {
                 $_SESSION['whmcs_message_success'] = 'Invoice cancelled successfully!';
             } else {
