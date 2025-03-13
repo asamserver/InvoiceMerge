@@ -90,6 +90,11 @@ class ClientController
             $result = MassPayment::handle($data);
     
             if ($result['result'] === 'success') {
+                foreach ($invoiceIds as $invoiceId) {
+                    $invoice = Invoice::find($invoiceId);
+                    $invoice->status = 'Packed Invoice';
+                    $invoice->save();
+                }
                 $_SESSION['whmcs_message_success'] = 'Invoices merged successfully!';
             } else {
                 $_SESSION['whmcs_message_error'] = $result['message'];
