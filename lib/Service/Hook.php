@@ -316,7 +316,7 @@ class Hook
                 ->pluck('relid') 
                 ->toArray();
             $existsInOtherInvoices = Capsule::table('tblinvoices')
-                ->whereIn('description', $items)
+                ->whereIn('id', $items)
                 ->where('invoiceid', '!=', $invoiceId) 
                 ->exists();
 
