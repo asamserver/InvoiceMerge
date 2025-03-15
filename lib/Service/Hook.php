@@ -315,7 +315,7 @@ class Hook
                 ->where('invoiceid', $invoiceId)
                 ->get();
             return [
-                'itemExistsInOtherInvoices' => $items->count() >=2 ? json_encode($items) : 'false'
+                'itemExistsInOtherInvoices' => $items->count() >=2 ? 'true' : 'false'
             ];
         });
     }
