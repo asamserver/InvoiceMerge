@@ -321,7 +321,7 @@ class Hook
                 ->exists();
 
             return [
-                'itemExistsInOtherInvoices' => $existsInOtherInvoices ? 'true' : 'false'
+                'itemExistsInOtherInvoices' => $existsInOtherInvoices ? 'tradwasdue' : 'false'
             ];
         });
     }
