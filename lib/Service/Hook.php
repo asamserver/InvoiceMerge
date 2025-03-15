@@ -308,14 +308,13 @@ class Hook
 
     public static function InvoiceMerge_ViewInvoice()
     {
-
         add_hook('ClientAreaPageViewInvoice', 1, function ($vars) {
             $invoiceId = $vars['invoiceid'];
             $items = Capsule::table('tblinvoiceitems')
-                ->where('invoiceid', $invoiceId)
-                ->get();
+                ->where('relid', $invoiceId)
+                ->first();
             return [
-                'itemExistsInOtherInvoices' => $items->count() >=2 ? 'true' : 'false'
+                'itemExistsInOtherInvoices' => $items ? 'true' : 'false'
             ];
         });
     }
