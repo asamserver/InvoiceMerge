@@ -313,15 +313,15 @@ class Hook
             $invoiceId = $vars['invoiceid'];
             $items = Capsule::table('tblinvoiceitems')
                 ->where('invoiceid', $invoiceId)
-                ->pluck('description') 
+                ->pluck('relid') 
                 ->toArray();
-            $existsInOtherInvoices = Capsule::table('tblinvoiceitems')
+            $existsInOtherInvoices = Capsule::table('tblinvoices')
                 ->whereIn('description', $items)
                 ->where('invoiceid', '!=', $invoiceId) 
                 ->exists();
 
             return [
-                'itemExistsInOtherInvoices' => $existsInOtherInvoices ? 'tradwasdue' : 'false'
+                'itemExistsInOtherInvoices' => $existsInOtherInvoices ? json_encode($items) : 'false'
             ];
         });
     }
