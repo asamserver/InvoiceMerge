@@ -313,9 +313,9 @@ class Hook
             $invoiceId = $vars['invoiceid'];
             $items = Capsule::table('tblinvoiceitems')
                 ->where('invoiceid', $invoiceId)
-                ->exists();
+                ->get();
             return [
-                'itemExistsInOtherInvoices' => $items ? json_encode($items) : 'false'
+                'itemExistsInOtherInvoices' => $items->count() >=2 ? json_encode($items) : 'false'
             ];
         });
     }
