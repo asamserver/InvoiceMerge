@@ -27,11 +27,6 @@ class ClientController
                 exit;
             }
             $result = Invoice::where('id', $invoiceId)->update(['status' => 'Cancelled']);
-            foreach ($invoice->items as $item) {
-                $invoice=Invoice::find($item->relid);
-                $invoice->status = 'Unpaid';
-                $invoice->save();
-            }
             if ($result) {
                 $_SESSION['whmcs_message_success'] = 'Invoice cancelled successfully!';
             } else {
@@ -95,11 +90,6 @@ class ClientController
             $result = MassPayment::handle($data);
     
             if ($result['result'] === 'success') {
-                foreach ($invoiceIds as $invoiceId) {
-                    $invoice = Invoice::find($invoiceId);
-                    $invoice->status = 'Packed Invoice';
-                    $invoice->save();
-                }
                 $_SESSION['whmcs_message_success'] = 'Invoices merged successfully!';
             } else {
                 $_SESSION['whmcs_message_error'] = $result['message'];

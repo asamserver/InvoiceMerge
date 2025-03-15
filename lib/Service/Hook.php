@@ -20,6 +20,7 @@ class Hook
      */
     public static function InvoiceMerge_register(): void
     {
+        self::InvoiceMerge_ViewInvoice();
         self::InvoiceMerge_addInvoiceCheckboxes();
     }
 
@@ -38,7 +39,7 @@ class Hook
                 $packs = InvoiceItem::where('type', 'Invoice')
                     ->where('userid', $clientId)
                     ->whereHas('invoice', function ($query) {
-                        $query->whereIn('status', ['Unpaid', 'Paid','Payment Pending']);
+                        $query->whereIn('status', ['Unpaid', 'Paid', 'Payment Pending']);
                     })
                     ->get();
 
@@ -54,7 +55,7 @@ class Hook
                         $packs_data[$pack->invoiceid] = $inv;
                     }
                 }
-                
+
 
                 $script = '
                     <script>
@@ -301,5 +302,27 @@ class Hook
             }
             return $message;
         }
+    }
+
+
+
+    public static function InvoiceMerge_ViewInvoice()
+    {
+
+        add_hook('ClientAreaPageViewInvoice', 1, function ($vars) {
+            $invoiceId = $vars['invoiceid'];
+            $items = Capsule::table('tblinvoiceitems')
+                ->where('invoiceid', $invoiceId)
+                ->pluck('description') 
+                ->toArray();
+            $existsInOtherInvoices = Capsule::table('tblinvoiceitems')
+                ->whereIn('description', $items)
+                ->where('invoiceid', '!=', $invoiceId) 
+                ->exists();
+
+            return [
+                'itemExistsInOtherInvoices' => $existsInOtherInvoices ? 'true' : 'false'
+            ];
+        });
     }
 }
