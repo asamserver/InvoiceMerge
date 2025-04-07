@@ -311,31 +311,39 @@ class Hook
         add_hook('ClientAreaPageViewInvoice', 1, function ($vars) {
             $invoiceId = $vars['invoiceid'];
 
-            // Find if this invoice was merged into another invoice (as an item)
-            $mergedItem = Capsule::table('tblinvoiceitems')
-                ->where('relid', $invoiceId)
-                ->first();
+            // Load the current invoice
+            $invoice = Invoice::find($invoiceId);
 
-            if ($mergedItem) {
-                $mergedInvoiceId = $mergedItem->invoiceid;
+            // Only proceed if invoice is unpaid
+            if ($invoice && $invoice->status == 'Unpaid') {
 
-                // Find all items in that merged invoice that are referencing other invoices
-                $relatedItems = Capsule::table('tblinvoiceitems')
-                    ->where('invoiceid', $mergedInvoiceId)
-                    ->whereNotNull('relid')
-                    ->pluck('relid')
-                    ->toArray();
+                // Check if this invoice appears as a related item in another invoice
+                $items = Capsule::table('tblinvoiceitems')
+                    ->where('relid', $invoiceId)
+                    ->get();
 
-                // If there are more than 1 invoice IDs in this invoice, it's a merged one
-                return [
-                    'itemExistsInOtherInvoices' => count($relatedItems) > 1 ? 'true' : 'false',
-                    'mergedInvoiceId' => $mergedInvoiceId,
-                    'mergedInvoices' => $relatedItems
-                ];
+                foreach ($items as $item) {
+                    // If found, get all items from the invoice where it was merged
+                    if ($item) {
+                        $itemss = Capsule::table('tblinvoiceitems')
+                            ->where('invoiceid', $item->invoiceid)
+                            ->first();
+                        $invoice = Invoice::find($item->invoiceid);
+                        if ($invoice && $invoice->status == 'Unpaid') {
+                            $itemsss = Capsule::table('tblinvoiceitems')
+                            ->where('invoiceid', $itemss->invoiceid)
+                            ->get();
+                            return [
+                                'itemExistsInOtherInvoices' => count($itemss) > 1 ? 'true' : $item->invoiceid
+                            ];
+                        }                       
+                    }
+                }
             }
 
+            // Default: not merged
             return [
-                'itemExistsInOtherInvoices' => 'false'
+                'itemExistsInOtherInvoices' => 'fssalse'
             ];
         });
     }
