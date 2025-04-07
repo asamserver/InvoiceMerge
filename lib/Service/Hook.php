@@ -310,6 +310,7 @@ class Hook
     {
         add_hook('ClientAreaPageViewInvoice', 1, function ($vars) {
             $invoiceId = $vars['invoiceid'];
+            $userId = $_SESSION['uid'];  // Get the current logged-in user's ID
 
             // Load the current invoice
             $invoice = Invoice::find($invoiceId);
@@ -317,39 +318,36 @@ class Hook
             // Only proceed if invoice is unpaid
             if ($invoice && $invoice->status == 'Unpaid') {
 
-                // Find any invoice items where this invoice is referenced
+                // Check if this invoice appears as a related item in another invoice
                 $items = Capsule::table('tblinvoiceitems')
                     ->where('relid', $invoiceId)
+                    ->where('userid', $userId)  // Make sure it belongs to the current user
                     ->get();
 
                 foreach ($items as $item) {
-                    // Get the parent invoice where this item is found
-                    $parentInvoice = Invoice::find($item->invoiceid);
-
-                    // Make sure the parent invoice is unpaid too
-                    if ($parentInvoice && $parentInvoice->status == 'Unpaid') {
-
-                        // Get all items in the parent invoice
-                        $mergedItems = Capsule::table('tblinvoiceitems')
+                    // If found, get all items from the invoice where it was merged
+                    if ($item) {
+                        $itemss = Capsule::table('tblinvoiceitems')
                             ->where('invoiceid', $item->invoiceid)
-                            ->get();
+                            ->where('userid', $userId)  // Ensure this item belongs to the same user
+                            ->first();
 
-                        // If more than 1 item in that invoice, it's a merged invoice
-                        if (count($mergedItems) > 1) {
+                        $invoice = Invoice::find($item->invoiceid);
+                        if ($invoice && $invoice->status == 'Unpaid') {
+                            $itemsss = Capsule::table('tblinvoiceitems')
+                                ->where('invoiceid', $itemss->invoiceid)
+                                ->where('userid', $userId)  // Ensure this belongs to the user
+                                ->get();
+
                             return [
-                                'itemExistsInOtherInvoices' => 'true'
-                            ];
-                        } else {
-                            // Only this invoice is in that merged invoice
-                            return [
-                                'itemExistsInOtherInvoices' => $item->invoiceid
+                                'itemExistsInOtherInvoices' => count($itemsss) > 1 ? 'true' : $item->invoiceid
                             ];
                         }
                     }
                 }
             }
 
-            // Not merged anywhere
+            // Default: not merged
             return [
                 'itemExistsInOtherInvoices' => 'false'
             ];
