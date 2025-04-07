@@ -311,16 +311,25 @@ class Hook
         add_hook('ClientAreaPageViewInvoice', 1, function ($vars) {
             $invoiceId = $vars['invoiceid'];
 
-            $invoice = Invoice::where('status', 'Unpaid')->where('id', $invoiceId)->first();
+            // Check if current invoice is unpaid
+            $invoice = Invoice::where('status', 'Unpaid')
+                ->where('id', $invoiceId)
+                ->first();
+
+            // If current invoice is not unpaid (e.g., maybe cancelled or paid), check if it's part of another invoice item
             if (!$invoice) {
-                $items = Capsule::table('tblinvoiceitems')
-                    ->where('relid', $invoiceId)
+                // Search for this invoice ID in the description of other invoice items
+                $itemReference = Capsule::table('tblinvoiceitems')
+                    ->where('description', 'like', '%' . $invoiceId . '%')
+                    ->where('invoiceid', '!=', $invoiceId) // Avoid matching itself
                     ->first();
+
                 return [
-                    'itemExistsInOtherInvoices' => $items ? 'true' : 'false'
+                    'itemExistsInOtherInvoices' => $itemReference ? 'true' : 'false'
                 ];
             }
 
+            // Invoice is valid and unpaid, so we don't consider it merged elsewhere
             return [
                 'itemExistsInOtherInvoices' => 'false'
             ];
