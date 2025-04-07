@@ -324,7 +324,7 @@ class Hook
             }
 
             return [
-                'itemExistsInOtherInvoices' => 'false'
+                'itemExistsInOtherInvoices' => 'falssssse'
             ];
         });
     }
