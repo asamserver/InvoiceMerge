@@ -320,8 +320,7 @@ class Hook
             if (!$invoice) {
                 // Search for this invoice ID in the description of other invoice items
                 $itemReference = Capsule::table('tblinvoiceitems')
-                    ->where('description', 'like', '%' . $invoiceId . '%')
-                    ->where('invoiceid', '!=', $invoiceId) // Avoid matching itself
+                    ->where('relid', '!=', $invoiceId) // Avoid matching itself
                     ->first();
 
                 return [
