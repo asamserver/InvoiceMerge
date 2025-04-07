@@ -310,14 +310,21 @@ class Hook
     {
         add_hook('ClientAreaPageViewInvoice', 1, function ($vars) {
             $invoiceId = $vars['invoiceid'];
-            $item = Capsule::table('tblinvoiceitems')
-                ->where('relid', $invoiceId)
-                ->first();
-            $items = Capsule::table('tblinvoiceitems')
-                ->where('invoiceid', $item->invoiceid)
-                ->get();
+            $invoice = Invoice::where('status', 'Unpaid')->where('id', $invoiceId)->first();
+            if (!$invoice) {
+                $item = Capsule::table('tblinvoiceitems')
+                    ->where('relid', $invoiceId)
+                    ->first();
+                $items = Capsule::table('tblinvoiceitems')
+                    ->where('invoiceid', $item->invoiceid)
+                    ->get();
+                return [
+                    'itemExistsInOtherInvoices' => count($items) > 1 ? 'true' : 'false'
+                ];
+            }
+
             return [
-                'itemExistsInOtherInvoices' => count($items) > 1 ? 'true' : 'false'
+                'itemExistsInOtherInvoices' => $invoiceId
             ];
         });
     }
