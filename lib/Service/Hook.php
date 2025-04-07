@@ -319,12 +319,12 @@ class Hook
                     ->where('invoiceid', $item->invoiceid)
                     ->get();
                 return [
-                    'itemExistsInOtherInvoices' => count($items) > 1 ? 'true' : 'false'
+                    'itemExistsInOtherInvoices' => count($items) > 1 ? 'true' : 'true'
                 ];
             }
 
             return [
-                'itemExistsInOtherInvoices' => $invoiceId
+                'itemExistsInOtherInvoices' => 'false'
             ];
         });
     }
