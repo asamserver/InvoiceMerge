@@ -334,7 +334,7 @@ class Hook
                             ->where('invoiceid', $itemss->invoiceid)
                             ->get();
                             return [
-                                'itemExistsInOtherInvoices' => count($itemss) > 1 ? 'true' : $item->invoiceid
+                                'itemExistsInOtherInvoices' => count($itemsss) > 1 ? 'true' : $item->invoiceid
                             ];
                         }                       
                     }
