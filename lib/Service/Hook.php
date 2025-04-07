@@ -311,33 +311,31 @@ class Hook
         add_hook('ClientAreaPageViewInvoice', 1, function ($vars) {
             $invoiceId = $vars['invoiceid'];
 
-            // Load the current invoice
-            $invoice = Invoice::find($invoiceId);
+            // Find if this invoice was merged into another invoice (as an item)
+            $mergedItem = Capsule::table('tblinvoiceitems')
+                ->where('relid', $invoiceId)
+                ->first();
 
-            // Only proceed if invoice is unpaid
-            if ($invoice && $invoice->status == 'Unpaid') {
+            if ($mergedItem) {
+                $mergedInvoiceId = $mergedItem->invoiceid;
 
-                // Check if this invoice appears as a related item in another invoice
-                $item = Capsule::table('tblinvoiceitems')
-                    ->where('relid', $invoiceId)
-                    ->first();
+                // Find all items in that merged invoice that are referencing other invoices
+                $relatedItems = Capsule::table('tblinvoiceitems')
+                    ->where('invoiceid', $mergedInvoiceId)
+                    ->whereNotNull('relid')
+                    ->pluck('relid')
+                    ->toArray();
 
-                // If found, get all items from the invoice where it was merged
-                if ($item) {
-                    $items = Capsule::table('tblinvoiceitems')
-                        ->where('invoiceid', $item->invoiceid)
-                        ->get();
-
-                    // If there are more than 1 item in that invoice, it's merged
-                    return [
-                        'itemExistsInOtherInvoices' => count($items) > 1 ? 'true' : $invoiceId
-                    ];
-                }
+                // If there are more than 1 invoice IDs in this invoice, it's a merged one
+                return [
+                    'itemExistsInOtherInvoices' => count($relatedItems) > 1 ? 'true' : 'false',
+                    'mergedInvoiceId' => $mergedInvoiceId,
+                    'mergedInvoices' => $relatedItems
+                ];
             }
 
-            // Default: not merged
             return [
-                'itemExistsInOtherInvoices' => 'fssalse'
+                'itemExistsInOtherInvoices' => 'false'
             ];
         });
     }
