@@ -330,7 +330,7 @@ class Hook
 
                     // If there are more than 1 item in that invoice, it's merged
                     return [
-                        'itemExistsInOtherInvoices' => count($items) > 1 ? 'true' : 'false'
+                        'itemExistsInOtherInvoices' => count($items) > 1 ? 'true' : $item->invoiceid
                     ];
                 }
             }
