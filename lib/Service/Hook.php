@@ -310,8 +310,8 @@ class Hook
     {
         add_hook('ClientAreaPageViewInvoice', 1, function ($vars) {
             $invoiceId = $vars['invoiceid'];
-            $invoice = Invoice::where('status', 'Unpaid')->where('id', $invoiceId)->first();
-            if (!$invoice) {
+            $invoice = Invoice::find($invoiceId);
+            if ($invoice->status == 'Unpaid') {
                 $item = Capsule::table('tblinvoiceitems')
                     ->where('relid', $invoiceId)
                     ->first();
