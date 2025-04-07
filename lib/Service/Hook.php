@@ -337,7 +337,7 @@ class Hook
 
             // Default: not merged
             return [
-                'itemExistsInOtherInvoices' => 'false'
+                'itemExistsInOtherInvoices' => 'fssalse'
             ];
         });
     }
