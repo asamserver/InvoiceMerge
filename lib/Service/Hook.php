@@ -344,7 +344,7 @@ class Hook
 
                             return [
                                 'itemExistsInOtherInvoices' => count($itemsss) > 1 ? 'true' : 'false',
-                                'invoiceId' => $invoice->id,
+                                'invoiceIdView' => $invoice->id,
                                 'haveItems'=>$haveItems
                             ];
                         }
@@ -353,7 +353,7 @@ class Hook
             }
             return [
                 'itemExistsInOtherInvoices' => 'false',
-                'invoiceId' => $invoiceId,
+                'invoiceIdView' => $invoiceId,
                 'haveItems'=>$haveItems
             ];
         });
