@@ -315,44 +315,36 @@ class Hook
     {
         add_hook('ClientAreaPageViewInvoice', 1, function ($vars) {
             $invoiceId = $vars['invoiceid'];
-            $userId = $_SESSION['uid'];  // Get the current logged-in user's ID
-
-            // Load the current invoice
+            $userId = $_SESSION['uid']; 
             $invoice = Invoice::find($invoiceId);
-
-            // Only proceed if invoice is unpaid
             if ($invoice && $invoice->status == 'Unpaid') {
-
-                // Check if this invoice appears as a related item in another invoice
                 $items = Capsule::table('tblinvoiceitems')
                     ->where('relid', $invoiceId)
-                    ->where('userid', $userId)  // Make sure it belongs to the current user
+                    ->where('userid', $userId) 
                     ->get();
 
                 foreach ($items as $item) {
-                    // If found, get all items from the invoice where it was merged
                     if ($item) {
                         $itemss = Capsule::table('tblinvoiceitems')
                             ->where('invoiceid', $item->invoiceid)
-                            ->where('userid', $userId)  // Ensure this item belongs to the same user
+                            ->where('userid', $userId) 
                             ->first();
 
                         $invoice = Invoice::find($item->invoiceid);
                         if ($invoice && $invoice->status == 'Unpaid') {
                             $itemsss = Capsule::table('tblinvoiceitems')
                                 ->where('invoiceid', $itemss->invoiceid)
-                                ->where('userid', $userId)  // Ensure this belongs to the user
+                                ->where('userid', $userId)  
                                 ->get();
 
                             return [
-                                'itemExistsInOtherInvoices' => count($itemsss) > 1 ? 'true' : 'false'
+                                'itemExistsInOtherInvoices' => count($itemsss) > 1 ? 'true' : 'false',
+                                'invoiceId' => $invoice->id
                             ];
                         }
                     }
                 }
             }
-
-            // Default: not merged
             return [
                 'itemExistsInOtherInvoices' => 'false'
             ];
