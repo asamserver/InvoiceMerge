@@ -317,6 +317,11 @@ class Hook
             $invoiceId = $vars['invoiceid'];
             $userId = $_SESSION['uid']; 
             $invoice = Invoice::find($invoiceId);
+            $invoices = Capsule::table('tblinvoiceitems')
+                    ->where('invoiceid', $invoiceId)
+                    ->where('userid', $userId) 
+                    ->get();
+            $haveItems = count($invoices) > 1 ? 'true' : 'false';
             if ($invoice && $invoice->status == 'Unpaid') {
                 $items = Capsule::table('tblinvoiceitems')
                     ->where('relid', $invoiceId)
@@ -339,14 +344,16 @@ class Hook
 
                             return [
                                 'itemExistsInOtherInvoices' => count($itemsss) > 1 ? 'true' : 'false',
-                                'invoiceId' => $invoice->id
+                                'invoiceId' => $invoice->id,
+                                'haveItems'=>$haveItems
                             ];
                         }
                     }
                 }
             }
             return [
-                'itemExistsInOtherInvoices' => 'false'
+                'itemExistsInOtherInvoices' => 'false',
+                'haveItems'=>$haveItems
             ];
         });
     }
