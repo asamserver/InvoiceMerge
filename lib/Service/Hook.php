@@ -201,7 +201,7 @@ class Hook
                                 } else {
                                     let payButton = document.createElement("a");
                                     payButton.href = `viewinvoice.php?id=${invoiceId}`;
-                                    payButton.textContent = "Pay";
+                                    payButton.textContent = "View and Pay";
                                     payButton.style.border = "2px solid #ccc";
                                     payButton.style.color = "green";
                                     payButton.style.padding = "5px 30px";
@@ -217,6 +217,11 @@ class Hook
                                     cancelButton.style.padding = "5px 30px";
                                     cancelButton.style.borderRadius = "3px";
                                     cancelButton.style.textDecoration = "none";
+                                    cancelButton.addEventListener("click", function(event) {
+                                        if (!confirm("You are about to cancel a packed invoice, if there is an ongoing payment to this invoice, it may lost!")) {
+                                            event.preventDefault(); 
+                                        }
+                                    });
 
                                     buttonContainer.appendChild(payButton);
                                     buttonContainer.appendChild(cancelButton);
