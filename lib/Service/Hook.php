@@ -353,6 +353,7 @@ class Hook
             }
             return [
                 'itemExistsInOtherInvoices' => 'false',
+                'invoiceId' => $invoiceId,
                 'haveItems'=>$haveItems
             ];
         });
